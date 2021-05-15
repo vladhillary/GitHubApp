@@ -113,6 +113,8 @@
   font-weight: 500;
   font-style: normal;
   font-size: 24px;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .project_wrapper .project_description {
