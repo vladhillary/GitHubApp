@@ -2,13 +2,14 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  outline: none;
 }
 
 .header {
   display: flex;
   height: 72px;
   background-color: #0064EB;
-  padding: 16px;
+  padding: 16px 0px 16px 0px;
 }
 
 .search_wrapper {
@@ -30,5 +31,99 @@
 .logo {
   margin-left: 41px;
   margin-right: 22.02px;
+}
+
+.avatar {
+  margin: 39px 0px 29px 57px;
+}
+
+.avatar img {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+}
+
+.autor_info {
+  margin-left: 56.03px;
+}
+
+.autor_info h2 {
+  margin-bottom: 12px;
+  color: black;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 26px;
+}
+
+.autor_info a {
+  color: #0064EB;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.autor_info .autor_profile {
+  margin-bottom: 30px;
+}
+
+.follower_wrapper {
+  display: flex;
+}
+
+.follower_wrapper span {
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+}
+
+.follower_wrapper .group_wrapper {
+  margin-right: 20.01px;
+}
+
+.follower_wrapper .group_wrapper img {
+  margin-right: 8.92px;
+}
+
+.follower_wrapper .person_wrapper img {
+  margin-right: 12.01px;
+}
+
+.main_repositories {
+  margin-left: 98px;
+}
+
+.main_repositories h1 {
+  margin: 28px 0px 29px 0px;
+  font-weight: 600;
+  font-size: 32px;
+  font-style: normal;
+}
+
+.project_wrapper {
+  width: 877px;
+  height: 112px;
+  margin-bottom: 24px;
+}
+
+.project_wrapper .project_title {
+  padding-top: 24px;
+  margin: 0px auto 16px 32px;
+  color: #0064EB;
+  font-weight: 500;
+  font-style: normal;
+  font-size: 24px;
+}
+
+.project_wrapper .project_description {
+  margin: 0px auto 24px 32px;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  color: black;
+}
+
+.main {
+  display: flex;
 }
 /*# sourceMappingURL=App.css.map */
