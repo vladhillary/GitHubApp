@@ -1,5 +1,4 @@
 import React from 'react'
-import photo from '../img/photo.png'
 import Followers from './Followers'
 import person_ico from '../img/person_ico.png'
 import group_ico from '../img/group_ico.png'
@@ -15,6 +14,7 @@ function AutorInfo({ photo, login, html_url, followers, following, name }) {
                 <div className='autor_profile'>
                     <h2>{name}</h2>
                     <a target='_blank'
+                        rel="noreferrer noopener"
                         href={html_url}>{login}</a>
                 </div>
                 <div className='follower_wrapper'>

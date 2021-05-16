@@ -8,6 +8,7 @@ import Repositories from './Components/Repositories/Repositories';
 
 function App() {
   const [dataUser, setDataUser] = useState()
+  const [reposData, setReposData] = useState()
   
   const inputRef = useRef()
 
@@ -24,15 +25,13 @@ function App() {
         fetch(`https://api.github.com/users/${input.value}/repos`)
           .then((res) => res.json())
           .then((data) => {
-            console.log(data);
+            setReposData(data)
           });
 
         fetch(`https://api.github.com/users/${input.value}`)
           .then((res) => res.json())
           .then((data) => {
-            console.log(data, 'data');
             setDataUser(data)
-            console.log(dataUser)
           });
       }
     })
@@ -55,7 +54,9 @@ function App() {
         following={dataUser ? dataUser.following : null}
         name={dataUser ? dataUser.name : null}
         />
-        <Repositories />
+        <Repositories 
+        reposData={reposData ? reposData : null}
+        />
       </main>
       <footer className='footer'>
 
