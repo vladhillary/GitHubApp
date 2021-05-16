@@ -18,8 +18,8 @@ function AutorInfo({ photo, login, html_url, followers, following, name }) {
                         href={html_url}>{login}</a>
                 </div>
                 <div className='follower_wrapper'>
-                    <Followers ico={group_ico} follow={followers + ' ' + 'followers'} />
-                    <Followers ico={person_ico} follow={following + ' ' + 'following'} />
+                    <Followers ico={group_ico} follow={followers + ' followers'} />
+                    <Followers ico={person_ico} follow={following + ' following'} />
                 </div>
 
 
