@@ -5,7 +5,7 @@ import person_ico from '../img/person_ico.png'
 import group_ico from '../img/group_ico.png'
 
 
-function AutorInfo() {
+function AutorInfo({ photo, login, html_url, followers, following, name }) {
     return (
         <div className='main_avatar'>
             <div className='avatar'>
@@ -13,12 +13,13 @@ function AutorInfo() {
             </div>
             <div className='autor_info'>
                 <div className='autor_profile'>
-                    <h2>Dan Abramov</h2>
-                    <a target='_blank' href='#'>gaearon</a>
+                    <h2>{name}</h2>
+                    <a target='_blank'
+                        href={html_url}>{login}</a>
                 </div>
                 <div className='follower_wrapper'>
-                    <Followers ico={group_ico} follow='65.8k followers' />
-                    <Followers ico={person_ico} follow='171 following' />
+                    <Followers ico={group_ico} follow={followers + ' ' + 'followers'} />
+                    <Followers ico={person_ico} follow={following + ' ' + 'following'} />
                 </div>
 
 

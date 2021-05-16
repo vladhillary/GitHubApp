@@ -3,11 +3,13 @@ import React from 'react'
 import Search from '../Serach/Search'
 import Logo from './Logo'
 
-function Header() {
+function Header({inputRef }) {
     return (
         <>
             <Logo />
-            <Search />
+            <Search
+                inputRef={inputRef}
+ />
         </>
     )
 }

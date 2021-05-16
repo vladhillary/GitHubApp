@@ -1,20 +1,61 @@
+import { useRef, useEffect, useState } from 'react';
 import AutorInfo from './Components/AutorInfo/AutorInfo';
-import  './Components/css/App.css';
+import './Components/css/App.css';
 import Header from './Components/Header/Header'
 import Repositories from './Components/Repositories/Repositories';
 
 
 
 function App() {
+  const [dataUser, setDataUser] = useState()
+  
+  const inputRef = useRef()
+
+  useEffect(() => {
+
+    fetchData()
+    
+  }, [])
+
+  const fetchData=()=> {
+    let input = inputRef.current
+    input.addEventListener('keydown', (e) => {
+      if (e.keyCode === 13) {
+        fetch(`https://api.github.com/users/${input.value}/repos`)
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          });
+
+        fetch(`https://api.github.com/users/${input.value}`)
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data, 'data');
+            setDataUser(data)
+            console.log(dataUser)
+          });
+      }
+    })
+  }
+
   return (
     <div className="App">
       <header className='header'>
-        <Header />
+        <Header
+          inputRef={inputRef}
+
+        />
       </header>
       <main className='main'>
-        <AutorInfo />
+        <AutorInfo 
+        photo={dataUser ? dataUser.avatar_url : null}
+        login={dataUser ? dataUser.login : null}
+        html_url={dataUser ? dataUser.html_url : null}
+        followers={dataUser ? dataUser.followers : null}
+        following={dataUser ? dataUser.following : null}
+        name={dataUser ? dataUser.name : null}
+        />
         <Repositories />
-        
       </main>
       <footer className='footer'>
 
