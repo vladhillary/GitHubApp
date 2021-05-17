@@ -1,7 +1,7 @@
 import React from 'react'
 import Followers from './Followers'
-import person_ico from '../img/person_ico.png'
-import group_ico from '../img/group_ico.png'
+import person_ico from '../img/person_ico.svg'
+import group_ico from '../img/group_ico.svg'
 
 
 function AutorInfo({ photo, login, html_url, followers, following, name }) {

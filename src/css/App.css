@@ -1,8 +1,27 @@
+@font-face {
+  font-family: 'Inter';
+  src: url("../fonts/Inter-Regular.ttf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url("../fonts/Inter-Medium.ttf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url("../fonts/Inter-SemiBold.ttf");
+  font-weight: 600;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   outline: none;
+  font-family: 'Inter';
 }
 
 .header {
@@ -10,6 +29,36 @@
   height: 72px;
   background-color: #0064EB;
   padding: 16px 0px 16px 0px;
+}
+
+.home_wrapper {
+  height: 90vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.home_wrapper .home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home_wrapper .home img {
+  width: 64.17px;
+  height: 64.17px;
+  margin-bottom: 46.92px;
+}
+
+.home_wrapper .home p {
+  width: 210px;
+  height: 62px;
+  font-size: 22px;
+  font-weight: 400;
+  font-style: normal;
+  color: #808080;
+  text-align: center;
 }
 
 .search_wrapper {
@@ -50,9 +99,9 @@
 .autor_info h2 {
   margin-bottom: 12px;
   color: black;
+  font-size: 26px;
   font-weight: 600;
   font-style: normal;
-  font-size: 26px;
 }
 
 .autor_info a {
@@ -72,9 +121,9 @@
 }
 
 .follower_wrapper span {
+  font-size: 16px;
   font-weight: 400;
   font-style: normal;
-  font-size: 16px;
 }
 
 .follower_wrapper .group_wrapper {
@@ -95,8 +144,8 @@
 
 .main_repositories h1 {
   margin: 28px 0px 29px 0px;
-  font-weight: 600;
   font-size: 32px;
+  font-weight: 600;
   font-style: normal;
 }
 
@@ -110,19 +159,19 @@
   padding-top: 24px;
   margin: 0px auto 16px 32px;
   color: #0064EB;
+  font-size: 24px;
   font-weight: 500;
   font-style: normal;
-  font-size: 24px;
   text-decoration: none;
   display: inline-block;
 }
 
 .project_wrapper .project_description {
   margin: 0px auto 24px 32px;
+  color: black;
+  font-size: 16px;
   font-weight: 400;
   font-style: normal;
-  font-size: 16px;
-  color: black;
 }
 
 .main {

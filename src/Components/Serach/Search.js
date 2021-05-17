@@ -1,5 +1,5 @@
 import React from 'react'
-import lupa from '../img/search.png'
+import lupa from '../img/search.svg'
 
 function Search({ inputRef }) {
     return (

@@ -1,24 +1,27 @@
 import { useRef, useEffect, useState } from 'react';
 import AutorInfo from './Components/AutorInfo/AutorInfo';
-import './Components/css/App.css';
+import './css/App.css';
 import Header from './Components/Header/Header'
+import Home from './Components/Home/Home';
 import Repositories from './Components/Repositories/Repositories';
+
 
 
 
 function App() {
   const [dataUser, setDataUser] = useState()
   const [reposData, setReposData] = useState()
-  
+
+
   const inputRef = useRef()
 
   useEffect(() => {
 
     fetchData()
-    
+
   }, [])
 
-  const fetchData=()=> {
+  const fetchData = () => {
     let input = inputRef.current
     input.addEventListener('keydown', (e) => {
       if (e.keyCode === 13) {
@@ -46,17 +49,21 @@ function App() {
         />
       </header>
       <main className='main'>
-        <AutorInfo 
-        photo={dataUser ? dataUser.avatar_url : null}
-        login={dataUser ? dataUser.login : null}
-        html_url={dataUser ? dataUser.html_url : null}
-        followers={dataUser ? dataUser.followers : null}
-        following={dataUser ? dataUser.following : null}
-        name={dataUser ? dataUser.name : null}
-        />
-        <Repositories 
-        reposData={reposData ? reposData : null}
-        />
+        {dataUser ? <>
+          <AutorInfo
+            photo={dataUser.avatar_url}
+            login={dataUser.login}
+            html_url={dataUser.html_url}
+            followers={dataUser.followers}
+            following={dataUser.following}
+            name={dataUser.name}
+          />
+          <Repositories
+            reposData={reposData ? reposData : null}
+          />
+        </> : <Home />}
+
+
       </main>
       <footer className='footer'>
 
