@@ -3,10 +3,12 @@ import React from 'react'
 import Search from '../Serach/Search'
 import Logo from './Logo'
 
-function Header({inputRef }) {
+function Header({inputRef, backStartPage }) {
     return (
         <>
-            <Logo />
+            <Logo 
+            backStartPage={backStartPage}
+             />
             <Search
                 inputRef={inputRef}
  />

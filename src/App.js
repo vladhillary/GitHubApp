@@ -4,6 +4,7 @@ import './css/App.css';
 import Header from './Components/Header/Header'
 import Home from './Components/Home/Home';
 import Repositories from './Components/Repositories/Repositories';
+import Empty from './Components/Repositories/Empty';
 
 
 
@@ -12,8 +13,31 @@ function App() {
   const [dataUser, setDataUser] = useState()
   const [reposData, setReposData] = useState()
 
+  const [notFound, setNotFound] = useState(false)
+
 
   const inputRef = useRef()
+
+  const fetchData = () => {
+    let input = inputRef.current
+    input.addEventListener('keydown', (e) => {
+      if (e.keyCode === 13) {
+
+        fetch(`https://api.github.com/users/${input.value}`)
+          .then((res) => res.json())
+          .then((data) => {
+            setDataUser(data)
+          }).catch(err => alert(err))
+
+        fetch(`https://api.github.com/users/${input.value}/repos`)
+          .then((res) => res.json())
+          .then((data) => {
+            setReposData(data)
+          }).catch(err => setNotFound(true))
+
+      }
+    })
+  }
 
   useEffect(() => {
 
@@ -21,23 +45,11 @@ function App() {
 
   }, [])
 
-  const fetchData = () => {
-    let input = inputRef.current
-    input.addEventListener('keydown', (e) => {
-      if (e.keyCode === 13) {
-        fetch(`https://api.github.com/users/${input.value}/repos`)
-          .then((res) => res.json())
-          .then((data) => {
-            setReposData(data)
-          });
 
-        fetch(`https://api.github.com/users/${input.value}`)
-          .then((res) => res.json())
-          .then((data) => {
-            setDataUser(data)
-          });
-      }
-    })
+
+  const backStartPage = () => {
+    setDataUser('')
+    inputRef.current.value = ''
   }
 
   return (
@@ -45,7 +57,7 @@ function App() {
       <header className='header'>
         <Header
           inputRef={inputRef}
-
+          backStartPage={backStartPage}
         />
       </header>
       <main className='main'>
@@ -58,10 +70,11 @@ function App() {
             following={dataUser.following}
             name={dataUser.name}
           />
-          <Repositories
-            reposData={reposData ? reposData : null}
-          />
+          {notFound ? <Empty /> : <Repositories
+            reposData={reposData}
+          />}
         </> : <Home />}
+
 
 
       </main>

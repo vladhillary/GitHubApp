@@ -1,9 +1,9 @@
 import React from 'react'
 import logo from '../img/logo.svg'
 
-function Logo() {
+function Logo({backStartPage}) {
     return (
-    <div className='logo'>
+    <div className='logo' onClick={()=> backStartPage()}>
         <img src={logo} alt='logo github' />
     </div>
     )
