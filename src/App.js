@@ -13,7 +13,7 @@ import Empty from './Components/Repositories/Empty';
 
 function App() {
   const [dataUser, setDataUser] = useState()
-  const [reposData, setReposData] = useState()
+  const [reposData, setReposData] = useState([])
 
   const [notFound, setNotFound] = useState(false)
 
@@ -29,6 +29,7 @@ function App() {
           .then((res) => res.json())
           .then((data) => {
             setDataUser(data)
+            if(data.message === 'Not Found') setNotFound(true)
             console.log(data, 'oureqweqwe')
           }).catch(err => {
             console.log(err)
@@ -40,7 +41,7 @@ function App() {
           .then((data) => {
             setReposData(data)
             console.log(data)
-          }).catch(err => setNotFound(true))
+          }).catch(err => setNotFound(prev => true))
 
       }
     })
@@ -57,7 +58,6 @@ function App() {
             .then((res) => res.json())
             .then((data) => {
               setDataUser(data)
-              console.log(data, 'oureqweqwe')
             }).catch(err => alert(err))
 
           fetch(`https://api.github.com/users/${inputRef.current.value}/repos`)
@@ -77,6 +77,7 @@ function App() {
 
   const backStartPage = () => {
     setDataUser('')
+    setNotFound(false)
     inputRef.current.value = ''
   }
 
@@ -89,8 +90,8 @@ function App() {
         />
       </header>
       <main className='main'>
-        {notFound ? <Nothing /> :
-          <> {dataUser ? <>
+        {notFound ? <Nothing />
+          : <> {dataUser ? <>
             <AutorInfo
               photo={dataUser.avatar_url}
               login={dataUser.login}
@@ -99,14 +100,15 @@ function App() {
               following={dataUser.following}
               name={dataUser.name}
             />
+            {reposData.length > 0 ?
+              <Repositories
+                reposData={reposData} /> :
+              <Empty setNotFound={setNotFound}/>}
 
-           {reposData ?<Repositories
-              reposData={reposData}
-            />: <Empty />} 
           </> : <Home />}
           </>
         }
-
+        {console.log(notFound)}
 
 
 

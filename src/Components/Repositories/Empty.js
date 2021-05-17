@@ -1,7 +1,8 @@
 import React from 'react'
 import empty from '../img/empty.svg'
 
-function Empty() {
+function Empty({setNotFound}) {
+    setNotFound(false)
     return (
         <div>
             <img src={empty} alt='Repository list is empty' />
