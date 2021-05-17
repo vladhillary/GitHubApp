@@ -4,7 +4,9 @@ import './css/App.css';
 import Header from './Components/Header/Header'
 import Home from './Components/Home/Home';
 import Repositories from './Components/Repositories/Repositories';
+import Nothing from './Components/Repositories/Nothing';
 import Empty from './Components/Repositories/Empty';
+
 
 
 
@@ -27,12 +29,17 @@ function App() {
           .then((res) => res.json())
           .then((data) => {
             setDataUser(data)
-          }).catch(err => alert(err))
+            console.log(data, 'oureqweqwe')
+          }).catch(err => {
+            console.log(err)
+            setNotFound(true)
+          })
 
         fetch(`https://api.github.com/users/${input.value}/repos`)
           .then((res) => res.json())
           .then((data) => {
             setReposData(data)
+            console.log(data)
           }).catch(err => setNotFound(true))
 
       }
@@ -42,6 +49,27 @@ function App() {
   useEffect(() => {
 
     fetchData()
+    return () => {
+      inputRef.current.removeEventListener('keydown', (e) => {
+        if (e.keyCode === 13) {
+
+          fetch(`https://api.github.com/users/${inputRef.current.value}`)
+            .then((res) => res.json())
+            .then((data) => {
+              setDataUser(data)
+              console.log(data, 'oureqweqwe')
+            }).catch(err => alert(err))
+
+          fetch(`https://api.github.com/users/${inputRef.current.value}/repos`)
+            .then((res) => res.json())
+            .then((data) => {
+              setReposData(data)
+              console.log(data)
+            }).catch(err => setNotFound(true))
+
+        }
+      })
+    }
 
   }, [])
 
@@ -61,19 +89,24 @@ function App() {
         />
       </header>
       <main className='main'>
-        {dataUser ? <>
-          <AutorInfo
-            photo={dataUser.avatar_url}
-            login={dataUser.login}
-            html_url={dataUser.html_url}
-            followers={dataUser.followers}
-            following={dataUser.following}
-            name={dataUser.name}
-          />
-          {notFound ? <Empty /> : <Repositories
-            reposData={reposData}
-          />}
-        </> : <Home />}
+        {notFound ? <Nothing /> :
+          <> {dataUser ? <>
+            <AutorInfo
+              photo={dataUser.avatar_url}
+              login={dataUser.login}
+              html_url={dataUser.html_url}
+              followers={dataUser.followers}
+              following={dataUser.following}
+              name={dataUser.name}
+            />
+
+           {reposData ?<Repositories
+              reposData={reposData}
+            />: <Empty />} 
+          </> : <Home />}
+          </>
+        }
+
 
 
 
@@ -81,7 +114,7 @@ function App() {
       <footer className='footer'>
 
       </footer>
-    </div>
+    </div >
   );
 }
 
