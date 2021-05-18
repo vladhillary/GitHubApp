@@ -14,17 +14,15 @@ import not_found from './Components/img/not_found.svg'
 function App() {
   const [dataUser, setDataUser] = useState()
   const [reposData, setReposData] = useState([])
-
   const [notFound, setNotFound] = useState(false)
-
 
   const inputRef = useRef()
 
-  const fetchData = () => {
-    let input = inputRef.current
+  const fetchData = (input) => {
+    
     input.addEventListener('keydown', (e) => {
       if (e.keyCode === 13) {
-
+        setNotFound(false)
         fetch(`https://api.github.com/users/${input.value}`)
           .then((res) => res.json())
           .then((data) => {
@@ -47,33 +45,31 @@ function App() {
   }
 
   useEffect(() => {
-
-    fetchData()
+    
+    let input = inputRef.current
+    fetchData(input)
 
     return () => {
-      inputRef.current.removeEventListener('keydown', (e) => {
+      input.removeEventListener('keydown', (e) => {
         if (e.keyCode === 13) {
 
-          fetch(`https://api.github.com/users/${inputRef.current.value}`)
+          fetch(`https://api.github.com/users/${input.value}`)
             .then((res) => res.json())
             .then((data) => {
               setDataUser(data)
             }).catch(err => alert(err))
 
-          fetch(`https://api.github.com/users/${inputRef.current.value}/repos`)
+          fetch(`https://api.github.com/users/${input.value}/repos`)
             .then((res) => res.json())
             .then((data) => {
               setReposData(data)
               console.log(data)
             }).catch(err => setNotFound(true))
-
         }
       })
     }
 
   }, [])
-
-
 
   const backStartPage = () => {
     setDataUser('')
@@ -92,7 +88,7 @@ function App() {
       <main className='main'>
         {notFound ? <Render
           img={not_found}
-          text='page'
+          text='User not found'
         />
           : <> {dataUser ? <>
             <AutorInfo
@@ -107,7 +103,6 @@ function App() {
               <Repositories
                 reposData={reposData} /> :
               <Render
-                setNotFound={setNotFound} //поудмать
                 text='Repository list is empty'
                 img={empty}
               />}
