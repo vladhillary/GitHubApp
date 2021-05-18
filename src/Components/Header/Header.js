@@ -1,6 +1,6 @@
 import React from 'react'
 
-import Search from '../Serach/Search'
+import Search from './Search'
 import Logo from './Logo'
 
 function Header({inputRef, backStartPage }) {

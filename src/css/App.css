@@ -31,7 +31,7 @@
   padding: 16px 0px 16px 0px;
 }
 
-.home_wrapper {
+.render_wrapper {
   height: 90vh;
   width: 100%;
   display: flex;
@@ -39,19 +39,19 @@
   align-items: center;
 }
 
-.home_wrapper .home {
+.render_wrapper .render {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.home_wrapper .home img {
+.render_wrapper .render img {
   width: 64.17px;
   height: 64.17px;
   margin-bottom: 46.92px;
 }
 
-.home_wrapper .home p {
+.render_wrapper .render p {
   width: 210px;
   height: 62px;
   font-size: 22px;

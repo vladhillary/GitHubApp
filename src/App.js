@@ -2,11 +2,11 @@ import { useRef, useEffect, useState } from 'react';
 import AutorInfo from './Components/AutorInfo/AutorInfo';
 import './css/App.css';
 import Header from './Components/Header/Header'
-import Home from './Components/Home/Home';
+import Render from './Components/Render/Render';
 import Repositories from './Components/Repositories/Repositories';
-import Nothing from './Components/Repositories/Nothing';
-import Empty from './Components/Repositories/Empty';
-
+import search_bigger from './Components/img/search_bigger.svg'
+import empty from './Components/img/empty.svg'
+import not_found from './Components/img/not_found.svg'
 
 
 
@@ -29,10 +29,10 @@ function App() {
           .then((res) => res.json())
           .then((data) => {
             setDataUser(data)
-            if(data.message === 'Not Found') setNotFound(true)
-            console.log(data, 'oureqweqwe')
+            if (data.message === 'Not Found') setNotFound(true)
+            console.log(data)
           }).catch(err => {
-            console.log(err)
+            console.log(err, 'oureqweqwe')
             setNotFound(true)
           })
 
@@ -40,8 +40,7 @@ function App() {
           .then((res) => res.json())
           .then((data) => {
             setReposData(data)
-            console.log(data)
-          }).catch(err => setNotFound(prev => true))
+          }).catch(err => setNotFound(true))
 
       }
     })
@@ -50,6 +49,7 @@ function App() {
   useEffect(() => {
 
     fetchData()
+
     return () => {
       inputRef.current.removeEventListener('keydown', (e) => {
         if (e.keyCode === 13) {
@@ -90,7 +90,10 @@ function App() {
         />
       </header>
       <main className='main'>
-        {notFound ? <Nothing />
+        {notFound ? <Render
+          img={not_found}
+          text='page'
+        />
           : <> {dataUser ? <>
             <AutorInfo
               photo={dataUser.avatar_url}
@@ -103,15 +106,18 @@ function App() {
             {reposData.length > 0 ?
               <Repositories
                 reposData={reposData} /> :
-              <Empty setNotFound={setNotFound}/>}
+              <Render
+                setNotFound={setNotFound} //поудмать
+                text='Repository list is empty'
+                img={empty}
+              />}
 
-          </> : <Home />}
+          </> : <Render
+            text='Start with searching a GitHub user'
+            img={search_bigger}
+          />}
           </>
         }
-        {console.log(notFound)}
-
-
-
       </main>
       <footer className='footer'>
 

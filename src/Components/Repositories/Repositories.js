@@ -2,7 +2,6 @@ import React from 'react'
 import Project from './Project'
 
 function Repositories({ reposData }) {
-    console.log(reposData)
 
     return (
         <>
