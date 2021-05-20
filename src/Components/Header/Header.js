@@ -3,16 +3,18 @@ import React from 'react'
 import Search from './Search'
 import Logo from './Logo'
 
-function Header({inputRef, backStartPage }) {
+function Header({ inputValue, backStartPage, onChange, onSubmit }) {
     return (
-        <>
-            <Logo 
-            backStartPage={backStartPage}
-             />
+        <header className='header'>
+            <Logo
+                backStartPage={backStartPage}
+            />
             <Search
-                inputRef={inputRef}
- />
-        </>
+                inputValue={inputValue}
+                onChange={onChange}
+                onSubmit={onSubmit}
+            />
+        </header>
     )
 }
 

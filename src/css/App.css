@@ -154,6 +154,7 @@
   width: 877px;
   height: 112px;
   margin-bottom: 24px;
+  background-color: #fff;
 }
 
 .project_wrapper .project_title {
@@ -173,6 +174,25 @@
   font-size: 16px;
   font-weight: 400;
   font-style: normal;
+}
+
+.footer ul {
+  display: flex;
+  list-style: none;
+}
+
+.footer ul li {
+  margin-right: 10px;
+}
+
+.footer ul li.selected {
+  color: white;
+  padding: 2px 6px;
+  background-color: #0064EB;
+}
+
+body {
+  background-color: #E5E5E5;
 }
 
 .main {

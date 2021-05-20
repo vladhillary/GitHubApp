@@ -1,106 +1,102 @@
-import { useRef, useEffect, useState } from 'react';
-import AutorInfo from './Components/AutorInfo/AutorInfo';
+import { useState } from 'react'
+import AutorInfo from './Components/AutorInfo/AutorInfo'
 import './css/App.css';
 import Header from './Components/Header/Header'
-import Render from './Components/Render/Render';
-import Repositories from './Components/Repositories/Repositories';
+import Render from './Components/Render/Render'
+import Repositories from './Components/Repositories/Repositories'
 import search_bigger from './Components/img/search_bigger.svg'
 import empty from './Components/img/empty.svg'
 import not_found from './Components/img/not_found.svg'
+import prev from './Components/img/arrow_prev.svg'
+import next from './Components/img/arrow_next.svg'
+import ReactPaginate from 'react-paginate'
 
 
+const amountRepos = 4
+
+// (cuurentPage-1)* 4 +1- first
+// first + amountRepos -1 - second
 
 
 function App() {
-  const [dataUser, setDataUser] = useState()
+  const [dataUser, setDataUser] = useState(null)
   const [reposData, setReposData] = useState([])
   const [notFound, setNotFound] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [test, setTest] = useState(false)
 
-  const inputRef = useRef()
+  const [inputValue, setInputValue] = useState('')
 
-  const fetchData = (input) => {
-    
-    input.addEventListener('keydown', (e) => {
-      if (e.keyCode === 13) {
-        setNotFound(false)
-        fetch(`https://api.github.com/users/${input.value}`)
-          .then((res) => res.json())
-          .then((data) => {
-            setDataUser(data)
-            if (data.message === 'Not Found') setNotFound(true)
-            console.log(data)
-          }).catch(err => {
-            console.log(err, 'oureqweqwe')
-            setNotFound(true)
-          })
-
-        fetch(`https://api.github.com/users/${input.value}/repos`)
-          .then((res) => res.json())
-          .then((data) => {
-            setReposData(data)
-          }).catch(err => setNotFound(true))
-
-      }
-    })
+  const onChange = (e) => {
+    setInputValue(e.target.value)
   }
 
-  useEffect(() => {
-    
-    let input = inputRef.current
-    fetchData(input)
 
-    return () => {
-      input.removeEventListener('keydown', (e) => {
-        if (e.keyCode === 13) {
 
-          fetch(`https://api.github.com/users/${input.value}`)
-            .then((res) => res.json())
-            .then((data) => {
-              setDataUser(data)
-            }).catch(err => alert(err))
+  const onSubmit = async (e) => {
+    if (e.keyCode === 13) {
+      try {
+        setNotFound(false)
+        const response = await fetch(`https://api.github.com/users/${inputValue}`)
+        const parsedResp = await response.json()
+        setDataUser(parsedResp)
 
-          fetch(`https://api.github.com/users/${input.value}/repos`)
-            .then((res) => res.json())
-            .then((data) => {
-              setReposData(data)
-              console.log(data)
-            }).catch(err => setNotFound(true))
-        }
-      })
+        await fetchData()
+      }
+      catch (e) {
+        setNotFound(true)
+
+      }
     }
+  }
 
-  }, [])
+
+  const fetchData = async () => {
+    const reposResponse = await fetch(`https://api.github.com/users/${inputValue}/repos?per_page=${amountRepos}&page=${currentPage}`)
+
+    setReposData(await reposResponse.json())
+
+  }
 
   const backStartPage = () => {
     setDataUser('')
     setNotFound(false)
-    inputRef.current.value = ''
+    setInputValue('')
   }
 
+  const amountPages = Math.ceil(dataUser?.public_repos / amountRepos)
+
+  async function handlePageClick({ selected: selectedPage }) {
+    setCurrentPage(selectedPage);
+    setTest(true)
+    await fetchData()
+    setTest(false)
+  }
   return (
     <div className="App">
-      <header className='header'>
-        <Header
-          inputRef={inputRef}
-          backStartPage={backStartPage}
-        />
-      </header>
+
+      <Header
+        inputValue={inputValue}
+        backStartPage={backStartPage}
+        onChange={onChange}
+        onSubmit={onSubmit}
+      />
+
       <main className='main'>
         {notFound ? <Render
           img={not_found}
           text='User not found'
         />
           : <> {dataUser ? <>
+
             <AutorInfo
-              photo={dataUser.avatar_url}
-              login={dataUser.login}
-              html_url={dataUser.html_url}
-              followers={dataUser.followers}
-              following={dataUser.following}
-              name={dataUser.name}
+              dataUser={dataUser}
             />
+            {test && 'TESTESRESFSEFSEFS'}
+
             {reposData.length > 0 ?
               <Repositories
+                countRepos={dataUser.public_repos}
                 reposData={reposData} /> :
               <Render
                 text='Repository list is empty'
@@ -115,6 +111,14 @@ function App() {
         }
       </main>
       <footer className='footer'>
+        {dataUser &&
+          <ReactPaginate
+            previousLabel={<img src={prev} alt='previous page' />}
+            nextLabel={<img src={next} alt='next page'
+            />}
+            pageCount={amountPages}
+            onPageChange={handlePageClick}
+          />}
 
       </footer>
     </div >

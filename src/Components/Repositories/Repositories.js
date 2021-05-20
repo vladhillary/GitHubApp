@@ -1,15 +1,15 @@
 import React from 'react'
 import Project from './Project'
 
-function Repositories({ reposData }) {
+function Repositories({ reposData, countRepos }) {
 
     return (
         <>
             <div className='main_repositories'>
-                <h1>Repositories ({reposData.length})</h1>
+                <h1>{`Repositories (${countRepos})`}</h1>
 
 
-                {reposData ? reposData.map((element, index) => {
+                {reposData.map((element, index) => {
 
                     return <Project
                         key={element + index}
@@ -17,7 +17,7 @@ function Repositories({ reposData }) {
                         description={element.description}
                         url={element.html_url}
                     />
-                }) : null}
+                })}
 
 
             </div>
