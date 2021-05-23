@@ -48,8 +48,7 @@ function App() {
 
   const fetchData = async (page) => {
 
-    const requestPageNumber = page || currentPage
-    const reposResponse = await fetch(`https://api.github.com/users/${inputValue}/repos?per_page=${amountRepos}&page=${requestPageNumber + 1}`)
+    const reposResponse = await fetch(`https://api.github.com/users/${inputValue}/repos?per_page=${amountRepos}&page=${page + 1}`)
 
     setReposData(await reposResponse.json())
 
