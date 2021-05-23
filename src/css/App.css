@@ -275,9 +275,27 @@
   }
 }
 
+@media screen and (max-width: 900px) {
+  .project_wrapper {
+    width: 750px;
+  }
+}
+
+@media screen and (max-width: 860px) {
+  .project_wrapper {
+    width: 650px;
+  }
+}
+
+@media screen and (max-width: 760px) {
+  .project_wrapper {
+    width: 600px;
+  }
+}
+
 @media screen and (max-width: 650px) {
   .search_wrapper input {
-    width: 100%;
+    width: 350px;
   }
 }
 

@@ -102,7 +102,6 @@ function App() {
                   amountRepos={reposData.length}
                   amountPages={amountPages}
                   handlePageClick={handlePageClick}
-
                 />
                 :
                 <Render

@@ -8,8 +8,6 @@ const getItemCount = (currentPage, amountRepos, countRepos) => `${currentPage * 
 
 function Repositories({ reposData, countRepos, currentPage, amountRepos, amountPages, handlePageClick }) {
 
-
-
     return (
         <div className='repos_wrapper'>
             <div className='main_repositories'>
@@ -28,7 +26,6 @@ function Repositories({ reposData, countRepos, currentPage, amountRepos, amountP
             </div>
             <div className='pagination_wrapper'>
                 <p className='amountPaginate'>
-
                     {getItemCount(currentPage, amountRepos, countRepos)}
                 </p>
 
