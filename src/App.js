@@ -10,12 +10,10 @@ import not_found from './Components/img/not_found.svg'
 import prev from './Components/img/arrow_prev.svg'
 import next from './Components/img/arrow_next.svg'
 import ReactPaginate from 'react-paginate'
+import Loader from './Components/Render/Loader'
 
 
 const amountRepos = 4
-
-// (cuurentPage-1)* 4 +1- first
-// first + amountRepos -1 - second
 
 
 function App() {
@@ -23,7 +21,7 @@ function App() {
   const [reposData, setReposData] = useState([])
   const [notFound, setNotFound] = useState(false)
   const [currentPage, setCurrentPage] = useState(1);
-  const [test, setTest] = useState(false)
+  const [showLoader, setShowLoader] = useState(false)
 
   const [inputValue, setInputValue] = useState('')
 
@@ -31,25 +29,21 @@ function App() {
     setInputValue(e.target.value)
   }
 
-
-
   const onSubmit = async (e) => {
     if (e.keyCode === 13) {
-      try {
-        setNotFound(false)
-        const response = await fetch(`https://api.github.com/users/${inputValue}`)
-        const parsedResp = await response.json()
-        setDataUser(parsedResp)
+      setCurrentPage(1)
+      setNotFound(false)
+      const response = await fetch(`https://api.github.com/users/${inputValue}`)
+      const parsedResp = await response.json()
+      setDataUser(parsedResp)
 
-        await fetchData()
-      }
-      catch (e) {
-        setNotFound(true)
+      await fetchData()
 
-      }
+
+      if (parsedResp.message === 'Not Found') setNotFound(true)
+
     }
   }
-
 
   const fetchData = async () => {
     const reposResponse = await fetch(`https://api.github.com/users/${inputValue}/repos?per_page=${amountRepos}&page=${currentPage}`)
@@ -67,10 +61,11 @@ function App() {
   const amountPages = Math.ceil(dataUser?.public_repos / amountRepos)
 
   async function handlePageClick({ selected: selectedPage }) {
+
     setCurrentPage(selectedPage);
-    setTest(true)
+    setShowLoader(true)
     await fetchData()
-    setTest(false)
+    setShowLoader(false)
   }
   return (
     <div className="App">
@@ -92,16 +87,17 @@ function App() {
             <AutorInfo
               dataUser={dataUser}
             />
-            {test && 'TESTESRESFSEFSEFS'}
+            {showLoader ? <Loader />
+              : reposData.length > 0 ?
+                <Repositories
+                  countRepos={dataUser.public_repos}
+                  reposData={reposData} /> :
+                <Render
+                  text='Repository list is empty'
+                  img={empty}
 
-            {reposData.length > 0 ?
-              <Repositories
-                countRepos={dataUser.public_repos}
-                reposData={reposData} /> :
-              <Render
-                text='Repository list is empty'
-                img={empty}
-              />}
+                />
+            }
 
           </> : <Render
             text='Start with searching a GitHub user'
@@ -112,13 +108,19 @@ function App() {
       </main>
       <footer className='footer'>
         {dataUser &&
-          <ReactPaginate
-            previousLabel={<img src={prev} alt='previous page' />}
-            nextLabel={<img src={next} alt='next page'
-            />}
-            pageCount={amountPages}
-            onPageChange={handlePageClick}
-          />}
+          <>
+
+            <p className='amountPaginate'>
+              {(currentPage - 1) * 4 + 1}-{((currentPage - 1) * 4 + 1) + amountRepos - 1} of {dataUser?.public_repos} items
+            </p>
+            <ReactPaginate
+              previousLabel={<img src={prev} alt='previous page' />}
+              nextLabel={<img src={next} alt='next page'
+              />}
+              pageCount={amountPages}
+              onPageChange={handlePageClick}
+            />
+          </>}
 
       </footer>
     </div >
