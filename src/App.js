@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import AutorInfo from './Components/AutorInfo/AutorInfo'
+import AuthorInfo from './Components/AuthorInfo/AuthorInfo'
 import './css/App.css';
 import Header from './Components/Header/Header'
 import Render from './Components/Render/Render'
@@ -7,10 +7,8 @@ import Repositories from './Components/Repositories/Repositories'
 import search_bigger from './Components/img/search_bigger.svg'
 import empty from './Components/img/empty.svg'
 import not_found from './Components/img/not_found.svg'
-import prev from './Components/img/arrow_prev.svg'
-import next from './Components/img/arrow_next.svg'
-import ReactPaginate from 'react-paginate'
 import Loader from './Components/Render/Loader'
+
 
 
 const amountRepos = 4
@@ -20,7 +18,7 @@ function App() {
   const [dataUser, setDataUser] = useState(null)
   const [reposData, setReposData] = useState([])
   const [notFound, setNotFound] = useState(false)
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(0);
   const [showLoader, setShowLoader] = useState(false)
 
   const [inputValue, setInputValue] = useState('')
@@ -31,40 +29,47 @@ function App() {
 
   const onSubmit = async (e) => {
     if (e.keyCode === 13) {
-      setCurrentPage(1)
+      setCurrentPage(0)
       setNotFound(false)
       const response = await fetch(`https://api.github.com/users/${inputValue}`)
       const parsedResp = await response.json()
       setDataUser(parsedResp)
 
-      await fetchData()
+      setShowLoader(true)
 
+      await fetchData(0)
+
+      setShowLoader(false)
 
       if (parsedResp.message === 'Not Found') setNotFound(true)
 
     }
   }
 
-  const fetchData = async () => {
-    const reposResponse = await fetch(`https://api.github.com/users/${inputValue}/repos?per_page=${amountRepos}&page=${currentPage}`)
+  const fetchData = async (page) => {
+
+    const requestPageNumber = page || currentPage
+    const reposResponse = await fetch(`https://api.github.com/users/${inputValue}/repos?per_page=${amountRepos}&page=${requestPageNumber + 1}`)
 
     setReposData(await reposResponse.json())
 
   }
 
   const backStartPage = () => {
-    setDataUser('')
+    setDataUser(null)
     setNotFound(false)
     setInputValue('')
+    setCurrentPage(1)
+    setReposData([])
   }
 
   const amountPages = Math.ceil(dataUser?.public_repos / amountRepos)
 
-  async function handlePageClick({ selected: selectedPage }) {
+  async function handlePageClick({ selected }) {
 
-    setCurrentPage(selectedPage);
+    setCurrentPage(selected);
     setShowLoader(true)
-    await fetchData()
+    await fetchData(selected)
     setShowLoader(false)
   }
   return (
@@ -84,18 +89,25 @@ function App() {
         />
           : <> {dataUser ? <>
 
-            <AutorInfo
+            <AuthorInfo
               dataUser={dataUser}
             />
             {showLoader ? <Loader />
               : reposData.length > 0 ?
+
                 <Repositories
                   countRepos={dataUser.public_repos}
-                  reposData={reposData} /> :
+                  reposData={reposData}
+                  currentPage={currentPage}
+                  amountRepos={reposData.length}
+                  amountPages={amountPages}
+                  handlePageClick={handlePageClick}
+
+                />
+                :
                 <Render
                   text='Repository list is empty'
                   img={empty}
-
                 />
             }
 
@@ -106,23 +118,7 @@ function App() {
           </>
         }
       </main>
-      <footer className='footer'>
-        {dataUser &&
-          <>
 
-            <p className='amountPaginate'>
-              {(currentPage - 1) * 4 + 1}-{((currentPage - 1) * 4 + 1) + amountRepos - 1} of {dataUser?.public_repos} items
-            </p>
-            <ReactPaginate
-              previousLabel={<img src={prev} alt='previous page' />}
-              nextLabel={<img src={next} alt='next page'
-              />}
-              pageCount={amountPages}
-              onPageChange={handlePageClick}
-            />
-          </>}
-
-      </footer>
     </div >
   );
 }

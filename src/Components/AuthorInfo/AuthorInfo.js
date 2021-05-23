@@ -4,14 +4,14 @@ import person_ico from '../img/person_ico.svg'
 import group_ico from '../img/group_ico.svg'
 
 
-function AutorInfo({ dataUser: { avatar_url, login, html_url, followers, following, name } }) {
+function AuthorInfo({ dataUser: { avatar_url, login, html_url, followers, following, name } }) {
     return (
         <div className='main_avatar'>
             <div className='avatar'>
-                <img src={avatar_url} alt='autor_photo' />
+                <img src={avatar_url} alt='author_photo' />
             </div>
-            <div className='autor_info'>
-                <div className='autor_profile'>
+            <div className='author_info'>
+                <div className='author_profile'>
                     <h2>{name}</h2>
                     <a target='_blank'
                         rel="noreferrer noopener"
@@ -28,4 +28,4 @@ function AutorInfo({ dataUser: { avatar_url, login, html_url, followers, followi
     )
 }
 
-export default AutorInfo
+export default AuthorInfo
