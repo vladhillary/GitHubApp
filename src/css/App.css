@@ -1,3 +1,12 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @font-face {
   font-family: 'Inter';
   src: url("../fonts/Inter-Regular.ttf");
@@ -101,15 +110,6 @@
   width: 120px;
   height: 120px;
   animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 
 .avatar {
@@ -423,7 +423,7 @@
     margin-bottom: 10px;
   }
   .project_wrapper {
-    width: 280px;
+    width: 300px;
   }
   .project_wrapper .project_title {
     font-size: 20px;
