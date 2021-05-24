@@ -28,6 +28,9 @@ function App() {
   }
 
   const onSubmit = async (e) => {
+
+    if(e.target.value === '') return
+    
     if (e.keyCode === 13) {
       setCurrentPage(0)
       setNotFound(false)
