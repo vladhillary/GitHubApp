@@ -58,7 +58,7 @@ function App() {
     setDataUser(null)
     setNotFound(false)
     setInputValue('')
-    setCurrentPage(1)
+    setCurrentPage(0)
     setReposData([])
   }
 
